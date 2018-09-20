@@ -118,7 +118,7 @@ export default class ProfileScreen extends React.Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView style={styles.container} contentContainerStyle={{justifyContent: 'space-between', flexGrow: 1, alignItems: 'center',}}
         >
-          <Animated.View style={{marginTop: this.state.yPosition, alignItems: 'center'}}>
+          <Animated.View style={{marginTop: this.state.yPosition, alignItems: 'center', backgroundColor: '#fffbf5', flex: 1}}>
             <View style={{backgroundColor: '#e6fffe', position: 'absolute', right: Platform.OS === 'ios' ? 15 : 10, top: Platform.OS === 'ios' ? 25 : 10, justifyContent: 'center', alignItems: 'flex-end', zIndex: 5}}>
               <Icon
                 name='mail'
@@ -134,7 +134,7 @@ export default class ProfileScreen extends React.Component {
               />
             </View>
             <View style={styles.small_container_username}>
-              <Text style={{marginBottom: 5}}>Username:</Text>
+              <Text style={{marginBottom: 5, fontWeight: '900'}}>Username:</Text>
               <TextInput
                 style={{height: 40, width: 180, borderColor: 'gray', borderWidth: 1, backgroundColor: '#ffffff', paddingLeft: 5, borderRadius: 4}}
                 onChangeText={(text) => this.setState({username: text})}
@@ -144,7 +144,7 @@ export default class ProfileScreen extends React.Component {
               />
             </View>
             <View style={{paddingBottom: 1}, styles.small_container}>
-              <Text style={{marginBottom: 5}}>Password:</Text>
+              <Text style={{marginBottom: 5, fontWeight: '900'}}>Password:</Text>
               <TextInput
                 style={{height: 40, width: 180, borderColor: 'gray', borderWidth: 1, backgroundColor: '#ffffff', paddingLeft: 5, borderRadius: 4}}
                 onChangeText={(text) => this.setState({password: text})}
@@ -155,7 +155,7 @@ export default class ProfileScreen extends React.Component {
               />
             </View>
             <View style={styles.small_container}>
-              <Text style={{marginBottom: 5}}>Email:</Text>
+              <Text style={{marginBottom: 5, fontWeight: '900'}}>Email:</Text>
               <TextInput
                 style={{height: 40, width: 180, borderColor: 'gray', borderWidth: 1, backgroundColor: '#ffffff', paddingLeft: 5, borderRadius: 4}}
                 onChangeText={(text) => this.setState({email: text})}
@@ -165,7 +165,7 @@ export default class ProfileScreen extends React.Component {
               />
             </View>
             <View style={styles.small_container}>
-              <Text style={{marginBottom: 5}}>Bio:</Text>
+              <Text style={{marginBottom: 5, fontWeight: '900'}}>Bio:</Text>
               <TextInput
                 style={{width: 180, height: 60, borderColor: 'gray', borderWidth: 1, backgroundColor: '#ffffff', paddingLeft: 5, borderRadius: 4}}
                 onChangeText={(text) => this.setState({bio: text})}
@@ -180,7 +180,7 @@ export default class ProfileScreen extends React.Component {
                           borderWidth: 1,
                           borderColor: '#6de3dc',
                           backgroundColor: '#6de3dc',
-                          marginTop: 10
+                          marginTop: 10,
                         }}
             >
               <TouchableOpacity
@@ -214,24 +214,24 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create ({
    container: {
       flexDirection: 'column',
-      backgroundColor: '#fff',
+      backgroundColor: '#e6fffe',
       //flex: 1,
-      paddingBottom: Platform.OS === 'ios' ? 8 : 5,
+      //paddingBottom: Platform.OS === 'ios' ? 0 : 0,
    },
    small_container: {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#fff',
-      width: 180,
+      backgroundColor: '#fffbf5',
+      width: Dimensions.get('window').width,
       marginTop: 5
    },
    small_container_username: {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#fff',
-      width: 180,
+      backgroundColor: '#fffbf5',
+      width: Dimensions.get('window').width,
       marginTop: 40,
       marginTop: 50
    },

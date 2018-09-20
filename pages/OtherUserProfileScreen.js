@@ -85,7 +85,8 @@ export default class RentableScreen extends React.Component {
     //this.authSubscription();
   }
 
-  navigateToRentable = () => {
+  @autobind
+  navigateToRentable() {
     console.log('in navigateToRentable');
 
     /*this.props
@@ -103,8 +104,8 @@ export default class RentableScreen extends React.Component {
      setTimeout(() => {
       this.props.navigation.dispatch(
         NavigationActions.navigate({
-          routeName: 'Rent',
-          params: { param: 'RentTab' },
+          routeName: 'Rentable',
+          params: { param: 'fromOtherUserProfile' },
         })
       );
 
@@ -293,15 +294,15 @@ export default class RentableScreen extends React.Component {
             </View>
           </View>
 
-          <View style={{backgroundColor: 'white'}, styles.bio_container}>
+          <View style={{backgroundColor: '#fffbf5'}, styles.bio_container}>
             <View style={styles.small_container_description}>
-              <Text style={{marginBottom: 5, marginLeft: 10, marginTop: 10, textDecorationLine: 'underline'}}>Bio:</Text>
+              <Text style={{marginBottom: 5, marginLeft: 10, marginTop: 10, fontWeight: '900'}}>Bio:</Text>
               <Text style={{marginBottom: 10, marginLeft: 10}}>Hi, I like to rent things to make money, hit me up for stuff!</Text>
             </View>
           </View>
-          <View style={{/*width: Dimensions.get('window').width,*/flex: 0.53, flexDirection: 'row', backgroundColor: '#e6fffe'}}>
+          <View style={{/*width: Dimensions.get('window').width,*/flex: 0.53, flexDirection: 'row', backgroundColor: '#fffbf5'}}>
             <View style={styles.small_container_description}>
-              <Text style={{marginBottom: 5, marginLeft: 10, marginTop: 10, textDecorationLine: 'underline'}}>Renting:</Text>
+              <Text style={{marginBottom: 5, marginLeft: 10, marginTop: 10, fontWeight: '900'}}>Renting:</Text>
               <MultiSelectList
                 style={{backgroundColor: '#ffe4c4'}}
                 data={this.state.items}
@@ -320,9 +321,9 @@ export default class RentableScreen extends React.Component {
               />
             </View>
           </View>
-          <View style={{backgroundColor: 'white'}, styles.description_container}>
+          <View style={{backgroundColor: '#fffbf5'}, styles.description_container}>
             <View style={styles.small_container_description}>
-              <Text style={{marginBottom: 5, marginLeft: 10, marginTop: 10, textDecorationLine: 'underline'}}>Past Rentals:</Text>
+              <Text style={{marginBottom: 5, marginLeft: 10, marginTop: 10, fontWeight: '900'}}>Past Rentals:</Text>
               <MultiSelectList
                 style={{backgroundColor: '#ffe4c4'}}
                 data={this.state.items}
@@ -374,7 +375,7 @@ const styles = StyleSheet.create ({
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'flex-start',
-      backgroundColor: 'white',
+      backgroundColor: '#fffbf5',
       flex: 1
    },
    condition_container: {
@@ -398,7 +399,7 @@ const styles = StyleSheet.create ({
       alignItems: 'flex-start',
       backgroundColor: 'white',
       width: Dimensions.get('window').width,
-      flex: 0.25
+      flex: 0
    },
    submitText: {
     textAlign: 'center',

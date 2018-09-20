@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:599782590095:android:20c017f2c2d432a5",
+        "mobilesdk_app_id": "1:599782590095:android:69cdc7feb62137c8",
         "android_client_info": {
-          "package_name": "com.snag.snag"
+          "package_name": "com.eamon.snag"
         }
       },
       "oauth_client": [

@@ -123,6 +123,14 @@ export default class RentScreen extends React.Component {
     }*/
   }
 
+  onLayout = (e) => {
+    this.setState({
+      width: e.nativeEvent.layout.width,
+      height: e.nativeEvent.layout.height,
+      x: e.nativeEvent.layout.x,
+      y: e.nativeEvent.layout.y
+    })
+  }
 
   render() {
     var base64Image = '';
@@ -165,10 +173,10 @@ export default class RentScreen extends React.Component {
           </View>
           <Animated.View style={styles.small_container_top_animated, {marginTop: this.state.yPosition}}>
             <View style={styles.small_container_top}>
-              <View style={styles.small_container_nowidth, {backgroundColor: 'e6fffe',}}>
-                <Text style={{marginBottom: 5, textAlign: 'center', fontWeight: '700'}}>Item Name:</Text>
+              <View style={styles.small_container_nowidth, {backgroundColor: '#d8fffd'}}>
+                <Text style={{marginBottom: 5, textAlign: 'center', fontWeight: '700', backgroundColor: '#d8fffd'}}>Item Name:</Text>
                 <TextInput
-                  style={{height: 40, width: 180, borderColor: 'gray', borderWidth: 0, backgroundColor: '#fff', paddingLeft: 5, borderRadius: 4}}
+                  style={{height: 40, width: 180, borderColor: 'gray', borderWidth: 1, backgroundColor: '#fff', paddingLeft: 5, borderRadius: 4}}
                   onChangeText={(text) => this.setState({item_name: text})}
                   value={this.state.item_name}
                   placeholder="ex. rowboat"
@@ -178,7 +186,7 @@ export default class RentScreen extends React.Component {
               <View style={styles.small_container, {backgroundColor: '#d8fffd'}}>
                 <Text style={{marginBottom: 5, textAlign: 'center', fontWeight: '700'}}>Price (per day):</Text>
                 <TextInput
-                  style={{width: 120, height: 40, borderColor: 'gray', borderWidth: 0, backgroundColor: '#fff', paddingLeft: 5, borderRadius: 4}}
+                  style={{width: 120, height: 40, borderColor: 'gray', borderWidth: 1, backgroundColor: '#fff', paddingLeft: 5, borderRadius: 4}}
                   onChangeText={(text) => this.setState({price: text})}
                   value={this.state.price}
                   placeholder="ex. 20"
@@ -189,7 +197,7 @@ export default class RentScreen extends React.Component {
             <View style={{paddingBottom: 1}, styles.small_container_description}>
               <Text style={{marginBottom: 5, fontWeight: '700'}}>Item Description:</Text>
               <TextInput
-                style={{width: Dimensions.get('window').width - 50, height: 60, borderColor: 'gray', borderWidth: 0, backgroundColor: '#ffffff', paddingLeft: 5, borderRadius: 4}}
+                style={{width: Dimensions.get('window').width - 50, height: 60, borderColor: 'gray', borderWidth: 1, backgroundColor: '#ffffff', paddingLeft: 5, borderRadius: 4}}
                 onChangeText={(text) => this.setState({item_description: text})}
                 value={this.state.item_description}
                 placeholder="ex. 10 feet long"
@@ -208,7 +216,7 @@ export default class RentScreen extends React.Component {
                 items={this.state.items}
                 onValueChange={(value) => {
                     this.setState({
-                        condtion: value,
+                        condition: value,
                     });
                 }}
                 style={{ ...pickerSelectStyles }}
@@ -248,7 +256,7 @@ export default class RentScreen extends React.Component {
 const styles = StyleSheet.create ({
    container: {
       flexDirection: 'column',
-      backgroundColor: 'white',
+      backgroundColor: '#fffbf5',
       flexGrow: 1,
       paddingBottom: Platform.OS === 'ios' ? 15 : 6,
    },
@@ -297,7 +305,7 @@ const styles = StyleSheet.create ({
    },
    small_container_condition: {
       flexDirection: 'column',
-      backgroundColor: '#fff',
+      backgroundColor: '#fffbf5',
       width: Dimensions.get('window').width,
       paddingHorizontal: 25,
       paddingTop: 5,
@@ -323,14 +331,17 @@ const styles = StyleSheet.create ({
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         fontSize: 16,
-        paddingTop: 10,
-        paddingHorizontal: 10,
-        paddingBottom: 9,
         borderWidth: 1,
+        paddingTop: 10,
+        paddingBottom: 9,
         borderColor: 'gray',
         borderRadius: 4,
         backgroundColor: 'white',
         color: 'black',
-        width: Dimensions.get('window').width - 50
+        width: Dimensions.get('window').width - 50,
+        paddingLeft: 5
     },
+    icon: {
+      top: 17.5
+    }
 });

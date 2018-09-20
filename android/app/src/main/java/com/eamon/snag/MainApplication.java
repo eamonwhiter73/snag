@@ -1,9 +1,12 @@
-package com.snag.snag;
+package com.eamon.snag;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import org.reactnative.camera.RNCameraPackage;
 import org.reactnative.camera.RNCameraPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -49,6 +52,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
         new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RNFirebasePackage(),
+            new RNCameraPackage(),
             new RNCameraPackage(),
         new RNFetchBlobPackage(),
         new RNCameraPackage(),

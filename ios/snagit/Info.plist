@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Need access to camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Need to save a picture to the camera roll.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -66,6 +66,10 @@
 		<string>OpenSans-ExtraBold.ttf</string>
 		<string>OpenSans-Light.ttf</string>
 		<string>OpenSans-SemiBold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

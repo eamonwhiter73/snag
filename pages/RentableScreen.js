@@ -7,6 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import NavigationService from '../services/NavigationService.js';
 import FitImage from 'react-native-fit-image';
+import type { RemoteMessage } from 'react-native-firebase';
 
 export default class RentableScreen extends React.Component {
 
@@ -25,7 +26,66 @@ export default class RentableScreen extends React.Component {
 
   static navigatorStyle = { navBarHidden: true };
 
-  componentDidMount() {
+  /*componentDidMount() {
+
+    firebase.messaging().hasPermission()
+      .then(enabled => {
+        if (enabled) {
+          firebase.messaging().getToken()
+            .then(fcmToken => {
+              if (fcmToken) {
+                // user has a device token
+              } else {
+                // user doesn't have a device token yet
+              } 
+            });
+
+          firebase.messaging().subscribeToTopic('all');
+
+          this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+              // Process your token as required
+              
+          });
+
+          this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
+              // Process your message as required
+              alert(message);
+          });
+          // user has permissions
+        } else {
+
+          firebase.messaging().requestPermission()
+            .then(() => {
+              firebase.messaging().getToken()
+                .then(fcmToken => {
+                  if (fcmToken) {
+                    // user has a device token
+                  } else {
+                    // user doesn't have a device token yet
+                  } 
+                });
+
+              firebase.messaging().subscribeToTopic('all');
+
+              this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+                  // Process your token as required
+                  
+              });
+
+              this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
+                console.log("message received");
+                  // Process your message as required
+                  alert(message);
+              });
+            })
+            .catch(error => {
+              alert(error);
+            });
+        } 
+      });
+
+    
+
     // The user is an Object, so they're logged in
     /*if (!this.state.user) {
       const { navigate } = this.props.navigation;
@@ -58,9 +118,59 @@ export default class RentableScreen extends React.Component {
         }
       }
     );*/
+  //}
+
+  componentDidMount() {
+
+    firebase.messaging()
+      .hasPermission()
+      .then(enabled => {
+        if (!enabled) {
+          console.log('permissions disabled');
+          this._getPermission();
+        }
+
+        console.log('permissions enabled');
+
+        firebase.messaging().subscribeToTopic('all').catch((error) => {alert(error)});
+
+        firebase.messaging().getToken()
+          .then(fcmToken => {
+            if (fcmToken) {
+              //USE THIS FOR INDIVIDUAL DEVICE MESSAGES?
+              console.log(fcmToken);
+            } else {
+              alert("User doesn't have a token yet");
+            } 
+
+          }).catch((error) => {
+            alert(error);
+          });
+
+      }).then(() => {
+        
+      }).catch((error) => {alert(error)});
   }
 
+  _getPermission = () => {
+    firebase.messaging()
+      .requestPermission()
+      .catch(error => {
+        // User has rejected permissions
+        // this._getPermission();
+        Alert.alert(
+          'ERROR',
+          "You must enable push notifications for the messaging system to work! If you don't you won't be able to use SnagIt! Please enable notificaitons in your phone - go to: Settings > Notifications > SnagIt.",
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: false }
+        )
+      });
+  };
+
   componentWillMount() {
+    
     /*this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
 
       if(user) {
@@ -73,6 +183,9 @@ export default class RentableScreen extends React.Component {
   }
 
   componentWillUnmount() {
+    this.onTokenRefreshListener();
+    this.messageListener();
+    firebase.messaging().unsubscribeFromTopic('all');
     //this.authSubscription();
   }
 
@@ -110,13 +223,21 @@ export default class RentableScreen extends React.Component {
               size={40}
               onPress={() => {
                 this.setState({backgroundColor: '#94ebe6'});
+                const param = this.props.navigation.getParam('param', '');
 
                 setTimeout(() => {
                   this.setState({backgroundColor: '#6de3dc'});
-                  this.props.navigation.navigate('OpenCamera', { param: 'fromRentableScreen'});
-                
 
-                  NavigationService.navigate('Home');
+                  //console.log(this.props.navigation.getParam('param', ''));
+
+                  if(param == 'fromOtherUserProfile') {
+                    console.log('in param is fromOtherUserProfile');
+                    this.props.navigation.goBack();
+                  }
+                  else {
+                    this.props.navigation.navigate('OpenCamera', { param: 'fromRentableScreen'});
+                    NavigationService.navigate('Home');
+                  }
                 }, 1)
                 
               }}
@@ -126,7 +247,7 @@ export default class RentableScreen extends React.Component {
           <View style={{flex: 1, height: Dimensions.get('window').height/2, width: Dimensions.get('window').width, backgroundColor: '#e6fffe', justifyContent: 'center', alignItems: 'center', /*borderBottomColor: '#6de3dc', borderBottomWidth: 1,*/ marginTop: Platform.OS === 'ios' ? 10 : 5}}>
             <FitImage
               source={{uri: 'http://snag.eamondev.com/assets/rowboat.png'}}
-              style={{height: Dimensions.get('window').height/2, width: Dimensions.get('window').width, borderBottomColor: '#6de3dc', borderBottomWidth: 1}}
+              style={{height: Dimensions.get('window').height/2, width: Dimensions.get('window').width}}
             />
           </View>
           <TouchableOpacity
@@ -137,12 +258,56 @@ export default class RentableScreen extends React.Component {
                       justifyContent: 'center',
                       alignItems: 'center',
                       //width: Dimensions.get('window').width,
-                      height: 40}}
+                      height: 44 }}
             onPress={() => {
               this.setState({rentButtonBackground: '#94ebe6'});
 
               setTimeout(() => {
                 this.setState({rentButtonBackground: '#6de3dc'});
+
+                var timestamp = new Date().getTime().toString();
+
+                // Add a new document with a generated id.                          //user-user                           //send generated ID and then change to message id in cloud
+                var addChat = firebase.firestore().collection('chats').doc(timestamp);
+                // Add a new document with a generated id.                          //user-user                           //send generated ID and then change to message id in cloud
+                var addMessage = firebase.firestore().collection('messages').doc(timestamp);
+
+
+                dataChat = {
+                  "title": "Test Chat",
+                  "lastMessage": "The relay seems to be malfunctioning.",
+                  "timestamp": timestamp
+                }
+
+                dataMessage = {}
+                dataMessage[timestamp] = {
+                  "name": "eamon",
+                  "message": "The relay seems to be malfunctioning.",
+                  "timestamp": timestamp
+                };
+
+                // Set the 'capital' field of the city
+                addChat.update(dataChat).then(() => {
+                                // Set the 'capital' field of the city
+                  addMessage.update(dataMessage).catch((error) => {
+                    //alert(error);
+                    addMessage.set(dataMessage).catch((error) => {
+                      alert(error);
+                    });
+                  });
+                }).catch((error) => {
+                  //alert(error);
+                  addChat.set(dataChat).catch((error) => {
+                    alert(error);
+                  }).then(() => {
+                    addMessage.update(dataMessage).catch((error) => {
+                      //alert(error);
+                      addMessage.set(dataMessage).catch((error) => {
+                        alert(error);
+                      });
+                    });
+                  })
+                });
                 
                 /*this.props.navigation.navigate('OpenCamera', { param: 'fromRentableScreen'});
               
@@ -154,11 +319,13 @@ export default class RentableScreen extends React.Component {
             <Text style = {{backgroundColor: this.state.rentButtonBackground, 
                             textAlign: 'center',
                             color: 'white',
-                            fontWeight: '700'}}>
+                            fontWeight: '900',
+                            fontSize: 18
+                          }}>
               RENT
             </Text>
           </TouchableOpacity>
-          <View style={{flex: 1, flexDirection: 'column', /*flex: 0.4,*/ justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{flex: 1, flexDirection: 'column', /*flex: 0.4,*/ justifyContent: 'center', alignItems: 'center', backgroundColor: '#fffbf5'}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
               <View style={styles.condition_container}>
                 <View style={{paddingBottom: 1}, styles.small_container_left}>
@@ -224,7 +391,8 @@ const styles = StyleSheet.create({
       width: Dimensions.get('window').width * 0.5,
       borderRightColor: '#6de3dc',
       borderRightWidth: 1,
-      padding: 10
+      padding: 10,
+      backgroundColor: '#fffbf5'
    },
    small_container: {
       flexDirection: 'column',
@@ -232,12 +400,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: 'white',
       width: Dimensions.get('window').width * 0.5,
+      backgroundColor: '#fffbf5'
    },
    small_container_description: {
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'flex-start',
-      backgroundColor: 'white',
+      backgroundColor: '#fffbf5',
       flex: 1
    },
    condition_container: {
@@ -246,12 +415,13 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       alignItems: 'center',
       backgroundColor: 'white',
+      backgroundColor: '#fffbf5'
    },
    description_container: {
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'flex-start',
-      backgroundColor: 'white',
+      backgroundColor: '#fffbf5',
       width: Dimensions.get('window').width,
       borderWidth: 1,
       borderColor: '#6de3dc',

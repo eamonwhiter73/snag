@@ -5,7 +5,7 @@
   "env": {
     "development": {
       "plugins": [
-        "transform-remove-console"
+        "transform-react-jsx-source"
       ]
     }
   }

@@ -6,6 +6,7 @@ import { createBottomTabNavigator, StackActions, NavigationActions } from 'react
 import firebase from 'react-native-firebase';
 import { YellowBox } from 'react-native';
 import NavigationService from './services/NavigationService';
+//import type { RemoteMessage } from 'react-native-firebase';
 
 import HomeScreen from './pages/HomeScreen';
 import ProfileScreen from './pages/ProfileScreen';
@@ -79,6 +80,71 @@ function getActiveRouteName(navigationState) {
 }
 
 export default class App extends React.Component {
+  
+  /*componentDidMount() {
+    firebase.messaging().hasPermission()
+        .then(enabled => {
+          if (enabled) {
+            firebase.messaging().getToken()
+              .then(fcmToken => {
+                if (fcmToken) {
+                  // user has a device token
+                } else {
+                  // user doesn't have a device token yet
+                } 
+              });
+
+            firebase.messaging().subscribeToTopic('all');
+
+            this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+                // Process your token as required
+                
+            });
+
+            this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
+                // Process your message as required
+                alert(message);
+            });
+            // user has permissions
+          } else {
+            firebase.messaging().requestPermission()
+              .then(() => {
+                firebase.messaging().getToken()
+                  .then(fcmToken => {
+                    if (fcmToken) {
+                      // user has a device token
+                    } else {
+                      // user doesn't have a device token yet
+                    } 
+                  });
+
+                firebase.messaging().subscribeToTopic('all');
+
+                this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+                    // Process your token as required
+                    
+                });
+
+                this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
+                  console.log("message received");
+                    // Process your message as required
+                    alert(message);
+                });
+              })
+              .catch(error => {
+                alert(error);
+              });
+          } 
+        });
+  }*/
+
+  componentWillUnmount() {
+    /*this.onTokenRefreshListener();
+    this.messageListener();
+    firebase.messaging().unsubscribeFromTopic('all');*/
+    //this.authSubscription();
+  }
+  
   render() {
     return (
       <AppNavigator ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef);}}/>

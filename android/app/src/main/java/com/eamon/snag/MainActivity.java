@@ -1,4 +1,4 @@
-package com.snag.snag;
+package com.eamon.snagit;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "snag";
+        return "snagit";
     }
 }
